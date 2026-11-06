@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[STOK] WhatsApp Bot Checker (Django / No-Docker)</title>
+  <link rel="stylesheet" href="/static/stok_workbench.css" />
+</head>
+<body>
+  <div class="frame">
+    <header class="topbar">
+      <div>
+        <h1>[STOK] Per-Category Stock Checker (Largest to Lowest)</h1>
+        <p>Standalone HTML + CSS + JS + Python (vertica-python) slice for Workstation (No Docker) &amp; Django</p>
+      </div>
+      <div>
+        <span class="badge">[STOK] Module Only</span>
+      </div>
+    </header>
+
+    <div class="grid-2">
+      <!-- LEFT PANE: Controls & Structured Table -->
+      <section class="pane">
+        <h2>1. Run [STOK] Command</h2>
+        <p class="sub">
+          Format: <code>[STOK] {2-digit Wil}{4-digit Depo} {Kategori}</code> or <code>[STOK] {Kategori}</code>
+        </p>
+
+        <div class="controls">
+          <input
+            type="text"
+            id="stokCommandInput"
+            value="[STOK] 219602 WAFER FLAT"
+            placeholder="[STOK] 219602 WAFER FLAT"
+          />
+          <button type="button" onclick="runStokQuery()">Run [STOK]</button>
+          <button type="button" class="secondary" id="copyWaBtn" onclick="copyWaText()">Copy WA Reply</button>
+        </div>
+
+        <div class="controls">
+          <input
+            type="text"
+            id="wilDepoInput"
+            value="219602"
+            placeholder="Wil+Depo (e.g. 219602)"
+            style="max-width: 140px;"
+          />
+          <select id="kategoriSelect" onchange="applyCategoryPreset()">
+            <option value="WAFER FLAT">1-WAFER FLAT</option>
+            <option value="WAFER STICK">2-WAFER STICK</option>
+            <option value="WAFER COATED">3-WAFER COATED</option>
+            <option value="COOKIES REAL">6-COOKIES REAL</option>
+            <option value="SNACK">8-SNACK</option>
+            <option value="SOFT CANDIES">9-SOFT CANDIES</option>
+            <option value="HARD CANDIES">11-HARD CANDIES</option>
+            <option value="LOLYPOP">12-LOLYPOP</option>
+            <option value="CHOCOLATE">14-CHOCOLATE</option>
+            <option value="TOOTHBRUSH">16-TOOTHBRUSH</option>
+            <option value="TOOTHPASTE">17-TOOTHPASTE</option>
+            <option value="BREAD">53-BREAD</option>
+            <option value="GUMMY">54-GUMMY</option>
+            <option value="">ALL CATEGORIES</option>
+          </select>
+          <button type="button" class="secondary" onclick="applyCategoryPreset()">Filter Category</button>
+        </div>
+
+        <div class="PresetPills">
+          <button type="button" class="secondary" onclick="runStokQuery('[STOK] 219602 WAFER FLAT')">
+            [STOK] 219602 WAFER FLAT
+          </button>
+          <button type="button" class="secondary" onclick="runStokQuery('[STOK] WAFER STICK')">
+            [STOK] WAFER STICK
+          </button>
+          <button type="button" class="secondary" onclick="runStokQuery('[STOK] 219602 GUMMY')">
+            [STOK] 219602 GUMMY
+          </button>
+          <button type="button" class="secondary" onclick="runStokQuery('[STOK] 219602')">
+            [STOK] 219602 (All)
+          </button>
+        </div>
+
+        <div class="meta-row">
+          <span id="stokStatus">Ready</span>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Kategori</th>
+                <th class="num">Stok (Krt)</th>
+                <th>Item</th>
+              </tr>
+            </thead>
+            <tbody id="stokTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- RIGHT PANE: Exact WhatsApp Text Output -->
+      <section class="pane">
+        <h2>2. Formatted WhatsApp Bot Reply (Sorted Largest to Lowest)</h2>
+        <p class="sub">
+          Returned in <code>reply_message</code> by <code>StokEngine().run_stok_command(...)</code>
+        </p>
+        <pre class="wa-preview" id="stokWaOutput">Loading...</pre>
+      </section>
+    </div>
+  </div>
+
+  <script src="/static/stok_workbench.js"></script>
+</body>
+</html>
